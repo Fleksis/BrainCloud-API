@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->char('title');
             $table->foreignId('user_id')->constrained();
+            $table->char('folder_location');
             $table->timestamps();
         });
     }

@@ -18,7 +18,10 @@ class File extends Model
     ];
 
     public function user() {
-        return $this->belongsTo(Folder::class, 'folder_id');
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function folder() {
+        return $this->belongsTo(Folder::class, 'folder_id');
     }
 }

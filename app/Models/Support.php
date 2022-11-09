@@ -13,7 +13,11 @@ class Support extends Model
         'first_name',
         'last_name',
         'email',
-        'topic',
+        'topic_id',
         'description',
     ];
+
+    public function topic() {
+        return $this->belongsTo(Topic::class, 'topic_id');
+    }
 }
