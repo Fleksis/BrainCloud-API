@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('supports', function (Blueprint $table) {
+        Schema::create('topics', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('email');
-            $table->foreignId('topic_id')->constrained('topics');
-            $table->string('description');
+            $table->string('title');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('supports');
+        Schema::dropIfExists('topics');
     }
 };

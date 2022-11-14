@@ -13,12 +13,16 @@ class File extends Model
         'title',
         'description',
         'size',
+        'file_location',
         'folder_id',
         'user_id',
     ];
 
     public function user() {
-        return $this->belongsTo(Folder::class, 'folder_id');
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function folder() {
+        return $this->belongsTo(Folder::class, 'folder_id');
     }
 }

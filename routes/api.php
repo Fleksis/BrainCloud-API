@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\FileController;
+use App\Http\Controllers\Api\FolderController;
+use App\Http\Controllers\Api\SupportController;
+use App\Http\Controllers\Api\TopicController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +19,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('/register', [UserController::class, 'register']);
+Route::post('/login', [UserController::class, 'login']);
+
+
+Route::middleware('auth:api')->group(function () {
+    Route::get('/user', [UserController::class, 'user']);
+    Route::get('/logout', [UserController::class, 'logout']);
+    Route::apiResource('folders', FolderController::class);
+    Route::apiResource('files', FileController::class);
+    Route::apiResource('supports', SupportController::class);
+    Route::apiResource('topics', TopicController::class);
 });
