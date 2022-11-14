@@ -13,6 +13,7 @@ class File extends Model
         'title',
         'description',
         'size',
+        'file_location',
         'folder_id',
         'user_id',
     ];

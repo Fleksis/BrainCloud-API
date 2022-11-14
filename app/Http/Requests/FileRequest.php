@@ -27,7 +27,7 @@ class FileRequest extends FormRequest
             'title'=> 'sometimes',
             'description'=> 'required',
             'folder_id'=> 'required|integer',
-            'folder_location'=> 'required',
+            'file_location'=> 'required',
             'user_id'=> 'required|integer',
         ];
     }

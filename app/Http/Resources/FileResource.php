@@ -20,7 +20,7 @@ class FileResource extends JsonResource
             'description'=> $this->description,
             'size'=> $this->size,
             'folder'=> $this->folder,
-            'folder_location'=> $this->folder_location,
+            'file_location'=> $this->file_location,
             'user'=> $this->user,
         ];
     }
