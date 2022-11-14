@@ -19,7 +19,7 @@ class SupportResource extends JsonResource
             'first_name'=> $this->first_name,
             'last_name'=> $this->last_name,
             'email'=> $this->email,
-            'topic_id'=> $this->topic,
+            'topic'=> $this->topic,
             'description'=> $this->description,
         ];
     }

@@ -27,7 +27,7 @@ class SupportRequest extends FormRequest
             'first_name'=> 'required',
             'last_name'=> 'required',
             'email'=> 'required',
-            'topic_id'=> 'required',
+            'topic_id'=> 'required|integer',
             'description'=> 'required',
         ];
     }

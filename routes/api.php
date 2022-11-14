@@ -26,8 +26,8 @@ Route::post('/login', [UserController::class, 'login']);
 Route::middleware('auth:api')->group(function () {
     Route::get('/user', [UserController::class, 'user']);
     Route::get('/logout', [UserController::class, 'logout']);
-    Route::apiResource('folder', FolderController::class);
-    Route::apiResource('file', FileController::class);
-    Route::apiResource('support', SupportController::class);
-    Route::apiResource('topic', TopicController::class);
+    Route::apiResource('folders', FolderController::class);
+    Route::apiResource('files', FileController::class);
+    Route::apiResource('supports', SupportController::class);
+    Route::apiResource('topics', TopicController::class);
 });

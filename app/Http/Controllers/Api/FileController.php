@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\FilesRequest;
-use App\Http\Resources\FilesResource;
+use App\Http\Requests\FileRequest;
+use App\Http\Resources\FileResource;
 use App\Models\File;
 use Illuminate\Http\Request;
 
@@ -17,7 +17,7 @@ class FileController extends Controller
      */
     public function index()
     {
-        return FilesResource::collection(File::all());
+        return FileResource::collection(File::all());
     }
 
     /**
@@ -26,10 +26,10 @@ class FileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(FilesRequest $request)
+    public function store(FileRequest $request)
     {
-        $files = File::create($request->validated());
-        return new FilesResource($files);
+        $file = File::create($request->validated());
+        return new FileResource($file);
     }
 
     /**
@@ -38,9 +38,9 @@ class FileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(File $files)
+    public function show(File $file)
     {
-        return new FilesResource($files);
+        return new FileResource($file);
     }
 
     /**
@@ -50,10 +50,10 @@ class FileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(FilesRequest $request, File $files)
+    public function update(FileRequest $request, File $file)
     {
-        $files->update($request->validated());
-        return new FilesResource($files);
+        $file->update($request->validated());
+        return new FileResource($file);
     }
 
     /**
@@ -62,9 +62,9 @@ class FileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(File $files)
+    public function destroy(File $file)
     {
-        $files->delete();
-        return new FilesResource($files);
+        $file->delete();
+        return new FileResource($file);
     }
 }

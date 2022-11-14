@@ -17,9 +17,7 @@ class UserController extends Controller
         $validated['password'] = Hash::make($validated['password']);
 
         $user = User::create($validated);
-        return response()->json([
-            'data' => $user
-        ]);
+        return new UserResource($user);
     }
 
     public function login(Request $request) {
