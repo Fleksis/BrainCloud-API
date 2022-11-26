@@ -27,7 +27,7 @@ class UserRequest extends FormRequest
             // 'image'=> 'required',
             'first_name'=> 'required',
             'last_name'=> 'required',
-            'email'=> 'required',
+            'email'=> 'required|email',
             'password'=> 'required',
         ];
     }
