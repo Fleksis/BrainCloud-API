@@ -9,11 +9,15 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
     public function register(UserRequest $request) {
         $validated = $request->validated();
+        $image = $validated['image'];
+        $validated['image'] = $image->hashName();
+        $image->store('public/items');
         $validated['password'] = Hash::make($validated['password']);
 
         $user = User::create($validated);
@@ -52,5 +56,11 @@ class UserController extends Controller
 
     public function user() {
         return response()->json(new UserResource(auth()->user()));
+    }
+
+    public function getFile (Request $request, User $user) {
+        if(!$request->hasValidSignature()) return abort(401);
+        $user->image = Storage::disk('local')->path('public/items/' .$user->image);
+        return response()->file($user->image);
     }
 }
