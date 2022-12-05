@@ -22,9 +22,10 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 
+Route::get('user/image/{user}', [UserController::class, 'getFile'])->name('user.image');
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('/user', [UserController::class, 'user']);
+    Route::get('/users', [UserController::class, 'user']);
     Route::get('/logout', [UserController::class, 'logout']);
     Route::apiResource('folders', FolderController::class);
     Route::apiResource('files', FileController::class);
