@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\FolderController;
 use App\Http\Controllers\Api\SupportController;
@@ -19,14 +20,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/register', [UserController::class, 'register']);
-Route::post('/login', [UserController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('user/image/{user}', [UserController::class, 'getFile'])->name('user.image');
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('/users', [UserController::class, 'user']);
-    Route::get('/logout', [UserController::class, 'logout']);
+    Route::get('/me', [AuthController::class, 'user']);
+    Route::apiResource('users', UserController::class);
+    Route::get('/logout', [AuthController::class, 'logout']);
     Route::apiResource('folders', FolderController::class);
     Route::apiResource('files', FileController::class);
     Route::apiResource('supports', SupportController::class);
