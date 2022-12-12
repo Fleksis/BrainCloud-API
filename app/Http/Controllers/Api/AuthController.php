@@ -35,7 +35,7 @@ class AuthController extends Controller
         {
             return response()->json([
                 'data' => 'Incorrect Data.'
-            ]);
+            ], 403);
         }
 
         $token = auth()->user()->createToken('accessToken')->accessToken;
@@ -59,6 +59,6 @@ class AuthController extends Controller
 
     public function user()
     {
-        return response()->json(new UserResource(auth()->user()));
+        return new UserResource(auth()->user());
     }
 }
