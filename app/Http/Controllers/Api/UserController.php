@@ -25,10 +25,10 @@ class UserController extends Controller
 
     public function update(UserRequest $request, User $user)
     {
-        Storage::disk('local')->delete('public/userAvatars/'.$user->image);
         $validated = $request->validated();
         if($request->hasFile('image'))
         {
+            Storage::disk('local')->delete('public/userAvatars/'.$user->image);
             $image = $validated['image'];
             $validated['image'] = $image->hashName();
             $image->store('public/userAvatars');
