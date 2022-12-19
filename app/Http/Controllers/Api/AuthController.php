@@ -62,11 +62,4 @@ class AuthController extends Controller
     {
         return new UserResource(auth()->user());
     }
-
-    public function download (User $user) {
-        $image = Storage::disk('local')->path('public/userAvatars/' .$user->image);
-        return response()->download($image);
-        // URL::signedRoute('user.image', ['user' => $this->id])
-        // return response()->download($image, 'asd', (array)'Content-Type: multipart/form-data');
-    }
 }

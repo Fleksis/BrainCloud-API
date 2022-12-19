@@ -25,8 +25,6 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('user/image/{user}', [UserController::class, 'getFile'])->name('user.image');
 
-Route::get('/download/{user}', [AuthController::class, 'download']);
-
 Route::middleware('auth:api')->group(function () {
     Route::get('/me', [AuthController::class, 'user']);
     Route::apiResource('users', UserController::class);
