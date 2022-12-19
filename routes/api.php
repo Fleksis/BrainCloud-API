@@ -25,11 +25,14 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('user/image/{user}', [UserController::class, 'getFile'])->name('user.image');
 
+Route::get('/download/{user}', [AuthController::class, 'download']);
+
 Route::middleware('auth:api')->group(function () {
     Route::get('/me', [AuthController::class, 'user']);
     Route::apiResource('users', UserController::class);
     Route::get('/logout', [AuthController::class, 'logout']);
     Route::apiResource('folders', FolderController::class);
+    Route::get('/user_folders', [FolderController::class, 'getUserFolders']);
     Route::apiResource('files', FileController::class);
     Route::apiResource('supports', SupportController::class);
     Route::apiResource('topics', TopicController::class);

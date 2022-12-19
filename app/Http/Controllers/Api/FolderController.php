@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\FolderRequest;
 use App\Http\Resources\FolderResource;
 use App\Models\Folder;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FolderController extends Controller
 {
@@ -28,7 +30,15 @@ class FolderController extends Controller
      */
     public function store(FolderRequest $request)
     {
-        $folder = Folder::create($request->validated());
+        $validated = $request->validated();
+        if (Storage::disk('local')->exists('public/'.$validated['user_id'].'/'.$validated['title'])) {
+            return response()->json([
+                'error' => 'You have already folder with this name!'
+            ], 400);
+        }
+        Storage::disk('local')->makeDirectory('public/'.$validated['user_id'].'/'.$validated['title']);
+        $validated['folder_location'] = 'public/'.$validated['user_id'].'/'.$validated['title'];
+        $folder = Folder::create($validated);
         return new FolderResource($folder);
     }
 
@@ -52,7 +62,15 @@ class FolderController extends Controller
      */
     public function update(FolderRequest $request, Folder $folder)
     {
-        $folder->update($request->validated());
+        $validated = $request->validated();
+        if (Storage::disk('local')->exists('public/'.$validated['user_id'].'/'.$validated['title'])) {
+            return response()->json([
+                'error' => 'You have already folder with this name!'
+            ], 400);
+        }
+        Storage::disk('local')->move($folder->folder_location, 'public/'.$validated['user_id'].'/'.$validated['title']);
+        $validated['folder_location'] = 'public/'.$validated['user_id'].'/'.$validated['title'];
+        $folder->update($validated);
         return new FolderResource($folder);
     }
 
@@ -64,7 +82,13 @@ class FolderController extends Controller
      */
     public function destroy(Folder $folder)
     {
+        Storage::disk('local')->deleteDirectory($folder->folder_location);
         $folder->delete();
         return new FolderResource($folder);
+    }
+
+    public function getUserFolders () {
+        $userFolders = Folder::where('user_id', auth()->user()->id)->get();
+        return FolderResource::collection($userFolders);
     }
 }
