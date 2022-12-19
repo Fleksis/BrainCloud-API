@@ -26,7 +26,7 @@ class FolderRequest extends FormRequest
         return [
             'title'=> 'required',
             'user_id'=> 'required|integer',
-            'folder_location'=> 'required',
+            'folder_location'=> '',
         ];
     }
 }

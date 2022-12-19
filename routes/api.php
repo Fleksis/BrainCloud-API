@@ -30,6 +30,7 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('users', UserController::class);
     Route::get('/logout', [AuthController::class, 'logout']);
     Route::apiResource('folders', FolderController::class);
+    Route::get('/user_folders', [FolderController::class, 'getUserFolders']);
     Route::apiResource('files', FileController::class);
     Route::apiResource('supports', SupportController::class);
     Route::apiResource('topics', TopicController::class);
