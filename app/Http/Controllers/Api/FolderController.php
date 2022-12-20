@@ -60,16 +60,18 @@ class FolderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(FolderRequest $request, Folder $folder)
+    public function update(Request $request, Folder $folder)
     {
-        $validated = $request->validated();
-        if (Storage::disk('local')->exists('public/'.$validated['user_id'].'/'.$validated['title'])) {
+        $validated = $request->validate([
+            'title' => ''
+        ]);
+        if (Storage::disk('local')->exists('public/'.$folder['user_id'].'/'.$validated['title'])) {
             return response()->json([
                 'error' => 'You have already folder with this name!'
             ], 400);
         }
-        Storage::disk('local')->move($folder->folder_location, 'public/'.$validated['user_id'].'/'.$validated['title']);
-        $validated['folder_location'] = 'public/'.$validated['user_id'].'/'.$validated['title'];
+        Storage::disk('local')->move($folder->folder_location, 'public/'.$folder['user_id'].'/'.$validated['title']);
+        $validated['folder_location'] = 'public/'.$folder['user_id'].'/'.$validated['title'];
         $folder->update($validated);
         return new FolderResource($folder);
     }
