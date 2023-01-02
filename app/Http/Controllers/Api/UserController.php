@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\Folder;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,9 +24,14 @@ class UserController extends Controller
         return new UserResource($user);
     }
 
-    public function update(UserRequest $request, User $user)
+    public function update(Request $request, User $user)
     {
-        $validated = $request->validated();
+        $validated = $request->validate([
+            'image' => '',
+            'name' => '',
+            'email' => 'email',
+            'password' => '',
+        ]);
         if($request->hasFile('image'))
         {
             Storage::disk('local')->delete('public/userAvatars/'.$user->image);
@@ -33,15 +39,20 @@ class UserController extends Controller
             $validated['image'] = $image->hashName();
             $image->store('public/userAvatars');
         }
-        $validated['password'] = Hash::make($validated['password']);
+        if (!isset($validated['password'])) {
+            $validated['password'] = Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
         $user->update($validated);
         return new UserResource($user);
     }
 
     public function destroy(User $user)
     {
-        Storage::disk('local')->delete('public/userAvatars/'.$user->image);
+        // TODO
         $user->delete();
+        Storage::disk('local')->delete('public/userAvatars/'.$user->image);
         return new UserResource($user);
     }
 
