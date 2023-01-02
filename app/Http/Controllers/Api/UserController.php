@@ -16,7 +16,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        return UserResource::collection(User::all());
+        return UserResource::collection(User::paginate(10));
     }
 
     public function show(User $user)
@@ -61,5 +61,14 @@ class UserController extends Controller
         if(!$request->hasValidSignature()) return abort(401);
         $user->image = Storage::disk('local')->path('public/userAvatars/' .$user->image);
         return response()->file($user->image);
+    }
+
+    public function userFilter (Request $request)
+    {
+        $validated = $request->validate([
+           'name' => 'required'
+        ]);
+        $users = User::where('name', 'LIKE', "%{$validated['name']}%")->paginate(10);
+        return UserResource::collection($users);
     }
 }
