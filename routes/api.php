@@ -24,6 +24,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('user/image/{user}', [UserController::class, 'getFile'])->name('user.image');
+Route::get('file/file/{file}', [FileController::class, 'getFile'])->name('file.file');
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/me', [AuthController::class, 'user']);
@@ -32,6 +33,7 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('folders', FolderController::class);
     Route::get('/user_folders', [FolderController::class, 'getUserFolders']);
     Route::apiResource('files', FileController::class);
+    Route::get('/user_files/{folder}', [FileController::class, 'getUserFiles']);
     Route::apiResource('supports', SupportController::class);
     Route::apiResource('topics', TopicController::class);
 });

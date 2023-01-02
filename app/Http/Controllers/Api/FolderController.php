@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FolderRequest;
 use App\Http\Resources\FolderResource;
+use App\Models\File;
 use App\Models\Folder;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -84,6 +85,11 @@ class FolderController extends Controller
      */
     public function destroy(Folder $folder)
     {
+        File::where('folder_id', $folder['id'])
+            ->get()
+            ->map(function ($file) {
+                $file->delete();
+            });
         Storage::disk('local')->deleteDirectory($folder->folder_location);
         $folder->delete();
         return new FolderResource($folder);

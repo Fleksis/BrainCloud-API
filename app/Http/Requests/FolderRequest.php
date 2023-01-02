@@ -24,7 +24,7 @@ class FolderRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'=> 'required',
+            'title'=> 'required|max:50',
             'user_id'=> 'required|integer',
             'folder_location'=> '',
         ];
