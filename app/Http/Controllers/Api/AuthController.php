@@ -22,8 +22,7 @@ class AuthController extends Controller
         $image->store('public/userAvatars');
         $validated['password'] = Hash::make($validated['password']);
 
-        $role = Role::where('name', 'user')->get();
-        $user = User::create($validated)->assignRole($role);
+        $user = User::create($validated)->assignRole('user');
         return new UserResource($user);
     }
 

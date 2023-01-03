@@ -22,8 +22,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $mainAdmin = Role::create(['name' => 'Main Administrator']);
-        $user = Role::create(['name' => 'user']);
-        $guest = Role::create(['name' => 'guest']);
+        $user = Role::create(['name' => 'User']);
+        $fakeUser = Role::create(['name' => 'Fake User']);
+        $guest = Role::create(['name' => 'Guest']);
 
         Permission::create(['name' => 'index.users'])->assignRole($mainAdmin);
         Permission::create(['name' => 'delete.users'])->assignRole($mainAdmin);
@@ -38,10 +39,10 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'update.topics'])->assignRole($mainAdmin);
         Permission::create(['name' => 'delete.topics'])->assignRole($mainAdmin);
 
-        Permission::create(['name' => 'userFiles'])->assignRole($user);
-        Permission::create(['name' => 'userFolders'])->assignRole($user);
-        Permission::create(['name' => 'me'])->assignRole($user);
-        Permission::create(['name' => 'logout'])->assignRole($user);
+        Permission::create(['name' => 'userFiles'])->assignRole([$user, $fakeUser]);
+        Permission::create(['name' => 'userFolders'])->assignRole([$user, $fakeUser]);
+        Permission::create(['name' => 'me'])->assignRole([$user, $fakeUser]);
+        Permission::create(['name' => 'logout'])->assignRole([$user, $fakeUser]);
 
         User::create([
            'image' => 'Test User',
@@ -56,6 +57,8 @@ class DatabaseSeeder extends Seeder
             'user_id' => 1,
             'folder_location' => 'public/'.'1'.'/'.'TESTA_MAPĪTE_AR_FAILIEM',
         ]);
-        User::factory()->times(20)->create();
+        User::factory()->times(20)->create()->each(function ($factoryUser) {
+            $factoryUser->assignRole('Fake User');
+        });
     }
 }

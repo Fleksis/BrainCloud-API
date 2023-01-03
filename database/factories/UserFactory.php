@@ -21,7 +21,7 @@ class UserFactory extends Factory
             'image' => 'https://thispersondoesnotexist.com/image',
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
-            'password' => $this->faker->password(7,20), // password
+            'password' => $this->faker->password(7),
         ];
     }
 

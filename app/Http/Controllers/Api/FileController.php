@@ -126,6 +126,7 @@ class FileController extends Controller
             'data' => 'required',
             'user_id' => 'required'
         ]);
+
         $files = File::where('title', 'LIKE', "%{$validated['data']}%")
             ->orWhere('description', 'LIKE', "%{$validated['data']}%")
             ->where('user_id', $validated['user_id'])
