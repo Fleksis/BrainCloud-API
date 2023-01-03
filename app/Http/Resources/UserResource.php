@@ -20,6 +20,7 @@ class UserResource extends JsonResource
             'image'=> URL::signedRoute('user.image', ['user' => $this->id]),
             'name'=> $this->name,
             'email'=> $this->email,
+            'role' => $this->getRoleNames(),
         ];
     }
 }

@@ -119,4 +119,17 @@ class FileController extends Controller
         $folder = Folder::find($file->folder_id);
         return Storage::disk('local')->response($folder->folder_location.'/'.$file->file);
     }
+
+    public function fileFilter (Request $request)
+    {
+        $validated = $request->validate([
+            'data' => 'required',
+            'user_id' => 'required'
+        ]);
+        $files = File::where('title', 'LIKE', "%{$validated['data']}%")
+            ->orWhere('description', 'LIKE', "%{$validated['data']}%")
+            ->where('user_id', $validated['user_id'])
+            ->get();
+        return FileResource::collection($files);
+    }
 }
