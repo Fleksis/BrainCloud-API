@@ -68,6 +68,7 @@ class UserController extends Controller
         $validated = $request->validate([
            'name' => 'required'
         ]);
+
         $users = User::where('name', 'LIKE', "%{$validated['name']}%")->paginate(10);
         return UserResource::collection($users);
     }

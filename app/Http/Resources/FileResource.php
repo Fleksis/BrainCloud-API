@@ -22,8 +22,8 @@ class FileResource extends JsonResource
             'file'=> URL::signedRoute('file.file', ['file' => $this->id]),
             'size'=> $this->size,
             'type' => $this->type,
-            'folder'=> $this->folder,
-            'user'=> $this->user,
+            'folder' => $this->folder,
+            'user' => $this->user,
             'created_at' => $this->created_at->format('d-m-Y G:i')
         ];
     }

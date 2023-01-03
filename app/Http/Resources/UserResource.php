@@ -17,7 +17,7 @@ class UserResource extends JsonResource
     {
         return [
             'id'=> $this->id,
-            'image'=> URL::signedRoute('user.image', ['user' => $this->id]),
+            'image'=> $this->getRoleNames()[0] == 'Fake User' ? $this->image : URL::signedRoute('user.image', ['user' => $this->id]),
             'name'=> $this->name,
             'email'=> $this->email,
             'role' => $this->getRoleNames(),

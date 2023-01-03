@@ -22,8 +22,7 @@ class AuthController extends Controller
         $image->store('public/userAvatars');
         $validated['password'] = Hash::make($validated['password']);
 
-        $role = Role::where('name', 'user')->get();
-        $user = User::create($validated)->assignRole($role);
+        $user = User::create($validated)->assignRole('User');
         return new UserResource($user);
     }
 
@@ -33,7 +32,6 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
         $user = User::where('email', $validated['email'])->first();
         if (!$user && Hash::check($validated['password'], $user->password))
         {
