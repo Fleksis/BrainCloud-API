@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
         $guest = Role::create(['name' => 'Guest']);
 
         Permission::create(['name' => 'index.users'])->assignRole($mainAdmin);
-        Permission::create(['name' => 'delete.users'])->assignRole($mainAdmin);
+        Permission::create(['name' => 'destroy.users'])->assignRole($mainAdmin);
 
         Permission::create(['name' => 'supports'])->assignRole($mainAdmin);
 

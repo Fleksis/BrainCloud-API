@@ -50,9 +50,12 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        // TODO
+        if ($user->getRoleNames()[0] != 'Fake User') {
+            $user->delete();
+            Storage::disk('local')->delete('public/userAvatars/'.$user->image);
+        }
         $user->delete();
-        Storage::disk('local')->delete('public/userAvatars/'.$user->image);
+
         return new UserResource($user);
     }
 

@@ -33,7 +33,7 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
         $user = User::where('email', $validated['email'])->first();
-        if (!$user && Hash::check($validated['password'], $user->password))
+        if (!$user || !Hash::check($validated['password'], $user->password))
         {
             return response()->json([
                 'data' => 'Incorrect Data.'

@@ -34,8 +34,8 @@ Route::middleware('auth:api')->group(function () {
     Route::group(['middleware' => ['can:index.users']], function () {
         Route::resource('users', UserController::class)->only('index');
     });
-    Route::group(['middleware' => ['can:delete.users']], function () {
-        Route::resource('users', UserController::class)->only('delete');
+    Route::group(['middleware' => ['can:destroy.users']], function () {
+        Route::resource('users', UserController::class)->only('destroy');
     });
 
     Route::apiResource('folders', FolderController::class);
