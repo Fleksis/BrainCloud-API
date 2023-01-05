@@ -8,13 +8,3 @@
 </a>
 </td>
 </tr>
-
-<style>
-    .between-x {
-        font-size: 72px;
-        padding-left: 20px;
-        padding-right: 20px;
-        margin: 0;
-        font-weight: lighter;
-    }
-</style>
