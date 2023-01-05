@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\FolderController;
+use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\Api\SupportController;
 use App\Http\Controllers\Api\TopicController;
 use App\Http\Controllers\Api\UserController;
@@ -30,12 +31,17 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('users', UserController::class)->only(['store', 'update']);
     Route::get('/me', [AuthController::class, 'user']);
     Route::get('/logout', [AuthController::class, 'logout']);
-    Route::post('/user_filter', [UserController::class, 'userFilter']);
+    Route::post('/users_filter', [UserController::class, 'userFilter']);
     Route::group(['middleware' => ['can:index.users']], function () {
         Route::resource('users', UserController::class)->only('index');
     });
     Route::group(['middleware' => ['can:destroy.users']], function () {
         Route::resource('users', UserController::class)->only('destroy');
+    });
+    Route::post('/reset_password', [UserController::class, 'resetPassword']);
+
+    Route::group(['middleware' => ['can:subscriptions']], function () {
+        Route::apiResource('subscriptions', SubscriptionController::class);
     });
 
     Route::apiResource('folders', FolderController::class);

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\File;
 use App\Models\Folder;
+use App\Models\Subscription;
 use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -30,6 +31,8 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'index.users'])->assignRole($mainAdmin);
         Permission::create(['name' => 'destroy.users'])->assignRole($mainAdmin);
 
+        Permission::create(['name' => 'subscriptions'])->assignRole($mainAdmin);
+
         Permission::create(['name' => 'supports'])->assignRole($mainAdmin);
 
         Permission::create(['name' => 'topics'])->assignRole($mainAdmin);
@@ -38,6 +41,19 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'userFolders'])->assignRole([$user, $fakeUser]);
         Permission::create(['name' => 'me'])->assignRole([$user, $fakeUser]);
         Permission::create(['name' => 'logout'])->assignRole([$user, $fakeUser]);
+
+        $subscriptions = array(
+            ['type' => 'Free', 'max_space' => 20],
+            ['type' => 'Basic', 'max_space' => 50],
+            ['type' => 'Extra', 'max_space' => 100],
+            ['type' => 'Rugged storage', 'max_space' => 500],
+        );
+        foreach ($subscriptions as $subscription) {
+            Subscription::create([
+                'type' => $subscription['type'],
+                'max_space' => $subscription['max_space'],
+            ]);
+        }
 
         User::create([
            'image' => 'Test User',
@@ -59,11 +75,11 @@ class DatabaseSeeder extends Seeder
             'email' => 'latvian10@gmail.com',
             'password' => Hash::make('admin123'),
         ])->assignRole($user);
-        Storage::disk('local')->makeDirectory('public/'.'2'.'/'.'TES_FOLDER_FOR_USER');
+        Storage::disk('local')->makeDirectory('public/'.'2'.'/'.'TEST_FOLDER_FOR_USER');
         Folder::create([
-            'title' => 'TES_FOLDER_FOR_USER',
+            'title' => 'TEST_FOLDER_FOR_USER',
             'user_id' => 2,
-            'folder_location' => 'public/'.'2'.'/'.'TES_FOLDER_FOR_USER',
+            'folder_location' => 'public/'.'2'.'/'.'TEST_FOLDER_FOR_USER',
         ]);
 
         User::factory()->times(20)->create()->each(function ($factoryUser) {
