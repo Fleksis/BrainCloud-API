@@ -35,7 +35,7 @@ class UserController extends Controller
             'image' => '',
             'name' => '',
             'email' => 'email',
-            'password' => '',
+            'password' => 'nullable|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/[0-9]/',
             'subscription_type' => '',
         ]);
         if($request->hasFile('image'))
