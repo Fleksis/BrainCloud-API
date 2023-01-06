@@ -38,8 +38,8 @@ Route::middleware('auth:api')->group(function () {
     Route::group(['middleware' => ['can:destroy.users']], function () {
         Route::resource('users', UserController::class)->only('destroy');
     });
-
     Route::post('/reset_password', [UserController::class, 'resetPassword']);
+    Route::get('/update_auth_user_space', [FileController::class, 'updateAuthUserSpace']);
 
     Route::group(['middleware' => ['can:subscriptions']], function () {
         Route::apiResource('subscriptions', SubscriptionController::class);
