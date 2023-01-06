@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\FolderController;
+use App\Http\Controllers\Api\StripeController;
 use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\Api\SupportController;
 use App\Http\Controllers\Api\TopicController;
@@ -20,6 +21,9 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::get('/success', [StripeController::class, 'successPayment']);
+Route::get('/failed', [StripeController::class, 'failedPayment']);
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -59,4 +63,6 @@ Route::middleware('auth:api')->group(function () {
     Route::group(['middleware' => ['can:topics']], function () {
         Route::resource('topics', TopicController::class);
     });
+    
+    Route::get('/bill', [StripeController::class, 'bill']);
 });
