@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('folders', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('folder_location');
+        Schema::create('subscriptions', function (Blueprint $table) {
+            $table->string('type', 50)->unique()->primary();
+            $table->integer('max_space');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('folders');
+        Schema::dropIfExists('subscriptions');
     }
 };

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
@@ -20,8 +21,9 @@ class AuthController extends Controller
         $validated['image'] = $image->hashName();
         $image->store('public/userAvatars');
         $validated['password'] = Hash::make($validated['password']);
+        $validated['subscription_type'] = 'Free';
 
-        $user = User::create($validated);
+        $user = User::create($validated)->assignRole('User');
         return new UserResource($user);
     }
 
@@ -31,17 +33,17 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
-        if (!Auth::attempt($validated))
+        $user = User::where('email', $validated['email'])->first();
+        if (!$user || !Hash::check($validated['password'], $user->password))
         {
             return response()->json([
                 'data' => 'Incorrect Data.'
             ], 403);
         }
 
-        $token = auth()->user()->createToken('accessToken')->accessToken;
+        $token = $user->createToken('accessToken')->accessToken;
         return response()->json([
-            'user' => new UserResource(auth()->user()),
+            'user' => new UserResource($user),
             'access_token' => $token,
         ]);
     }

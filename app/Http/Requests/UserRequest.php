@@ -26,8 +26,9 @@ class UserRequest extends FormRequest
         return [
             'image'=> 'required',
             'name'=> 'required',
-            'email'=> 'required|email',
-            'password'=> 'required',
+            'email'=> 'required|email|unique:users,email',
+            'password'=> 'required|min:8|regex:/[a-z]/|regex:/[A-Z]/|regex:/[0-9]/',
+            'password_confirm' => 'required|same:password',
         ];
     }
 }

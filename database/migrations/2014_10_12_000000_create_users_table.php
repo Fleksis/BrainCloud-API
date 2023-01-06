@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('subscription_type')->nullable();
+            $table->integer('space')->default(0);
+            $table->string('subscription_type')->default('Free');
             $table->rememberToken();
             $table->timestamps();
         });

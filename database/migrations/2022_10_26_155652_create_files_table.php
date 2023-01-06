@@ -17,10 +17,11 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
-            $table->float('size')->nullable();
-            $table->string('file_location');
+            $table->string('file');
+            $table->string('size');
+            $table->string('type');
             $table->foreignId('folder_id')->constrained();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
