@@ -21,7 +21,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'free_space' => $this->space.' / '.$this->SubscriptionType->max_space.' Gb',
-            'subscription_type' => new SubscriptionResource($this->SubscriptionType),
+            'subscription_type' => new PlanResource($this->SubscriptionType),
             'role' => $this->getRoleNames(),
         ];
     }

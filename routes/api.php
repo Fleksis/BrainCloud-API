@@ -4,7 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Api\FolderController;
 use App\Http\Controllers\Api\StripeController;
-use App\Http\Controllers\Api\SubscriptionController;
+use App\Http\Controllers\Api\PlanController;
 use App\Http\Controllers\Api\SupportController;
 use App\Http\Controllers\Api\TopicController;
 use App\Http\Controllers\Api\UserController;
@@ -30,6 +30,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('user/image/{user}', [UserController::class, 'getFile'])->name('user.image');
 Route::get('file/file/{file}', [FileController::class, 'getFile'])->name('file.file');
+Route::post('/reset_password', [UserController::class, 'resetPassword']);
 
 Route::middleware('auth:api')->group(function () {
     Route::apiResource('users', UserController::class)->only(['store', 'update']);
@@ -42,11 +43,10 @@ Route::middleware('auth:api')->group(function () {
     Route::group(['middleware' => ['can:destroy.users']], function () {
         Route::resource('users', UserController::class)->only('destroy');
     });
-    Route::post('/reset_password', [UserController::class, 'resetPassword']);
     Route::get('/update_auth_user_space', [FileController::class, 'updateAuthUserSpace']);
 
-    Route::group(['middleware' => ['can:subscriptions']], function () {
-        Route::apiResource('subscriptions', SubscriptionController::class);
+    Route::group(['middleware' => ['can:plans']], function () {
+        Route::apiResource('plans', PlanController::class);
     });
 
     Route::apiResource('folders', FolderController::class);
@@ -63,6 +63,6 @@ Route::middleware('auth:api')->group(function () {
     Route::group(['middleware' => ['can:topics']], function () {
         Route::resource('topics', TopicController::class);
     });
-    
-    Route::get('/bill', [StripeController::class, 'bill']);
+
+    Route::post('/bill/{user}', [StripeController::class, 'bill']);
 });

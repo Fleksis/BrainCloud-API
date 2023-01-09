@@ -5,7 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\File;
 use App\Models\Folder;
-use App\Models\Subscription;
+use App\Models\Plan;
 use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'index.users'])->assignRole($mainAdmin);
         Permission::create(['name' => 'destroy.users'])->assignRole($mainAdmin);
 
-        Permission::create(['name' => 'subscriptions'])->assignRole($mainAdmin);
+        Permission::create(['name' => 'plans'])->assignRole($mainAdmin);
 
         Permission::create(['name' => 'supports'])->assignRole($mainAdmin);
 
@@ -42,16 +42,18 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'me'])->assignRole([$user, $fakeUser]);
         Permission::create(['name' => 'logout'])->assignRole([$user, $fakeUser]);
 
-        $subscriptions = array(
-            ['type' => 'Free', 'max_space' => 20],
-            ['type' => 'Basic', 'max_space' => 50],
-            ['type' => 'Extra', 'max_space' => 100],
-            ['type' => 'Rugged storage', 'max_space' => 500],
+        $plans = array(
+            ['type' => 'Free', 'description' => 'Free plan, where you have only 20 gigabytes of storage with some limitations', 'max_space' => 20, 'price' => 0],
+            ['type' => 'Basic', 'description' => 'You have to buy, to get more storage with no minimal file size or max file size', 'max_space' => 50, 'price' => 9.99],
+            ['type' => 'Extra', 'description' => 'More storage, no more limits for the number of files and folders', 'max_space' => 100, 'price' => 14.99],
+            ['type' => 'Rugged storage', 'description' => 'Five times more storage than plan Extra and no more limitations', 'max_space' => 500, 'price' => 19.99],
         );
-        foreach ($subscriptions as $subscription) {
-            Subscription::create([
-                'type' => $subscription['type'],
-                'max_space' => $subscription['max_space'],
+        foreach ($plans as $plan) {
+            Plan::create([
+                'type' => $plan['type'],
+                'description' => $plan['description'],
+                'max_space' => $plan['max_space'],
+                'price' => $plan['price'],
             ]);
         }
 

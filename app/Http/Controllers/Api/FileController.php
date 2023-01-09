@@ -8,7 +8,7 @@ use App\Http\Resources\FileResource;
 use App\Http\Resources\UserResource;
 use App\Models\File;
 use App\Models\Folder;
-use App\Models\Subscription;
+use App\Models\Plan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -35,7 +35,7 @@ class FileController extends Controller
     {
         $validated = $request->validated();
         $user = User::find($validated['user_id']);
-        $subscription = Subscription::where('type', '=', $user['subscription_type'])->first();
+        $subscription = Plan::where('type', '=', $user['subscription_type'])->first();
         if ($user['space'] + 0.0099 + (round($validated['file']->getSize() / (1024 * 1024 * 1024), 4)) >= $subscription['max_space']) {
             return response()->json([
                 'data' => 'You don\'t have enough space, upgrade your storage!'

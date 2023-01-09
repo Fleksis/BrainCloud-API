@@ -33,7 +33,7 @@ class MailNotify extends Mailable
      */
     public function build()
     {
-        return $this->subject('Request for password reset Brain-Cloud.uk')
+        return $this->subject('Request for reset password Brain-Cloud.uk')
             ->markdown('emails.reset_password')
             ->with([
                 'email' => $this->email,

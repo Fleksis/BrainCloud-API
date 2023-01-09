@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Subscription extends Model
+class Plan extends Model
 {
     use HasFactory;
 
@@ -13,6 +13,8 @@ class Subscription extends Model
     public $incrementing = false;
     protected $fillable = [
         'type',
+        'description',
         'max_space',
+        'price',
     ];
 }

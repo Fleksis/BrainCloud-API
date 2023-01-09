@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SubscriptionRequest;
-use App\Http\Resources\SubscriptionResource;
-use App\Models\Subscription;
+use App\Http\Requests\PlanRequest;
+use App\Http\Resources\PlanResource;
+use App\Models\Plan;
 use Illuminate\Http\Request;
 
-class SubscriptionController extends Controller
+class PlanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +17,7 @@ class SubscriptionController extends Controller
      */
     public function index()
     {
-        return SubscriptionResource::collection(Subscription::all());
+        return PlanResource::collection(Plan::all());
     }
 
     /**
@@ -26,10 +26,10 @@ class SubscriptionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SubscriptionRequest $request)
+    public function store(PlanRequest $request)
     {
-        $subscription = Subscription::create($request->validated());
-        return new SubscriptionResource($subscription);
+        $subscription = Plan::create($request->validated());
+        return new PlanResource($subscription);
     }
 
     /**
@@ -38,9 +38,9 @@ class SubscriptionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Subscription $subscription)
+    public function show(Plan $subscription)
     {
-        return new SubscriptionResource($subscription);
+        return new PlanResource($subscription);
     }
 
     /**
@@ -50,10 +50,10 @@ class SubscriptionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SubscriptionRequest $request, Subscription $subscription)
+    public function update(PlanRequest $request, Plan $subscription)
     {
         $subscription->update($request->validated());
-        return new SubscriptionResource($subscription);
+        return new PlanResource($subscription);
     }
 
     /**
@@ -62,9 +62,9 @@ class SubscriptionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Subscription $subscription)
+    public function destroy(Plan $subscription)
     {
         $subscription->delete();
-        return new SubscriptionResource($subscription);
+        return new PlanResource($subscription);
     }
 }

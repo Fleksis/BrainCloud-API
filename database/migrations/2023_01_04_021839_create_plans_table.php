@@ -13,9 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('subscriptions', function (Blueprint $table) {
+        Schema::create('plans', function (Blueprint $table) {
             $table->string('type', 50)->unique()->primary();
+            $table->string('description');
             $table->integer('max_space');
+            $table->decimal('price');
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subscriptions');
+        Schema::dropIfExists('plans');
     }
 };
